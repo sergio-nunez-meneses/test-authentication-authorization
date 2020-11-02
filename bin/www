@@ -60,9 +60,12 @@ models.sequelize.sync({ force: true })
 
     const user = await models.User.create(form);
 
-    // for debugging
-    console.log(user);
-    console.log('user token:', await user.generateAuthenticationToken());
+    if (user) {
+
+      // for debugging
+      console.log(user);
+      console.log('user token:', await user.generateAuthenticationToken());
+    }
 
     /**
      * Listen on provided port, on all network interfaces.
