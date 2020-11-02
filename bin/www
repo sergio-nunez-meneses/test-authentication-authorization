@@ -25,6 +25,18 @@ var models = require('../models');
 
 models.sequelize.sync({ force: true })
   .then(async function() {
+    // for debugging
+    console.log('successfully connected to', models.sequelize.config.database);
+
+    const user = await models.User.create({
+      name: 'Jenny Doe',
+      email: 'jenny.doe@farmer.com',
+      password: '&#{[kjsh|}@xlds$*mlkqsd^'
+    });
+
+    // for debugging
+    console.log(user);
+    console.log('user token:', await user.generateAuthenticationToken());
 
     /**
      * Listen on provided port, on all network interfaces.
@@ -33,8 +45,6 @@ models.sequelize.sync({ force: true })
     server.listen(port);
     server.on('error', onError);
     server.on('listening', onListening);
-
-    console.log('successfully connected');
   })
   .catch(error => console.error(error));
 

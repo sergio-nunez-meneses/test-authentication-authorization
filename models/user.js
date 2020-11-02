@@ -1,4 +1,9 @@
 'use strict';
+
+const jwt = require('jsonwebtoken');
+const config = require('config');
+// const Joi = require('joi');
+
 const {
   Model
 } = require('sequelize');
@@ -12,6 +17,14 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
+    generateAuthenticationToken() {
+      const token = jwt.sign({
+        id: this.id, isAdmin: this.isAdmin
+      }, config.get('myprivatekey'));
+
+      return token;
+    }
+
   };
   User.init({
     name: { type: DataTypes.STRING(50), allowNull: false },
