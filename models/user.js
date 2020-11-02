@@ -2,7 +2,6 @@
 
 const jwt = require('jsonwebtoken');
 const config = require('config');
-// const Joi = require('joi');
 
 const {
   Model
@@ -17,14 +16,15 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
+
     generateAuthenticationToken() {
       const token = jwt.sign({
-        id: this.id, isAdmin: this.isAdmin
-      }, config.get('myprivatekey'));
+        id: this.id,
+        is_admin: this.is_admin
+      }, config.get('myprivatekey'), { expiresIn: '1h' });
 
       return token;
     }
-
   };
   User.init({
     name: { type: DataTypes.STRING(50), allowNull: false },
